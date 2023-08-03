@@ -6,12 +6,19 @@
 //
 
 import SwiftUI
+import PhotosUI
+import Photos
 
 @main
 struct LoopOutApp: App {
+    let photoLibraryService = PhotoLibraryService()
+    let assetCollectionLibraryService =  CollectionLibraryService()
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            ViewController()
+                .environmentObject(photoLibraryService)
+                .environmentObject(assetCollectionLibraryService)
+                .preferredColorScheme(.dark)
         }
     }
 }

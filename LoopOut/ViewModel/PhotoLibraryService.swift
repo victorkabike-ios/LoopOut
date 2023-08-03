@@ -1,0 +1,115 @@
+//import Foundation
+import Photos
+import UIKit
+enum AuthorizationError: Error {
+    case restrictedAccess
+    case deniedAccess
+}
+class PhotoLibraryService: ObservableObject {
+    @Published var authorizationStatus: PHAuthorizationStatus = .notDetermined
+    @Published var results: PHFetchResult<PHAsset>?
+    var imageCachingManager = PHCachingImageManager()
+    
+    func requestAuthorization(handleError: ((AuthorizationError?) -> Void)? = nil) {
+        PHPhotoLibrary.requestAuthorization { [weak self] status in
+            DispatchQueue.main.async {
+                self?.authorizationStatus = status
+                
+                switch status {
+                case .authorized:
+                    self?.fetchAllPhotos()
+                case .denied, .restricted:
+                    handleError?(.restrictedAccess)
+                case .notDetermined:
+                    break
+                @unknown default:
+                    break
+                }
+            }
+        }
+    }
+    func saveImageToLibrary(image: UIImage, completion: @escaping (Bool, Error?) -> Void) {
+            PHPhotoLibrary.requestAuthorization { status in
+                if status == .authorized {
+                    PHPhotoLibrary.shared().performChanges {
+                        let request = PHAssetChangeRequest.creationRequestForAsset(from: image)
+                        request.creationDate = Date()
+                    } completionHandler: { success, error in
+                        completion(success, error)
+                    }
+                } else {
+                    let error = NSError(domain: "com.yourapp.photoLibraryError", code: 0, userInfo: [NSLocalizedDescriptionKey: "Permission denied"])
+                    completion(false, error)
+                }
+            }
+        }
+     func fetchAllPhotos() {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        fetchOptions.includeHiddenAssets = false
+        fetchOptions.predicate = NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue)
+        
+        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+        results = fetchResult
+        
+        imageCachingManager.startCachingImages(for: fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count)), targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: nil)
+    }
+    func fetchSelfiesPhotos() {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        fetchOptions.includeHiddenAssets = false
+        fetchOptions.predicate = NSPredicate(format: "mediaType == %d && sourceType == %d", PHAssetMediaType.image.rawValue, PHAssetSourceType.typeUserLibrary.rawValue)
+        
+        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+        results = fetchResult
+        
+        imageCachingManager.startCachingImages(for: fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count)), targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: nil)
+    }
+    func fetchLivePhotos() {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        fetchOptions.includeHiddenAssets = false
+        fetchOptions.predicate = NSPredicate(format: "mediaType == %d && mediaSubtype == %d", PHAssetMediaType.image.rawValue, PHAssetMediaSubtype.photoLive.rawValue)
+        
+        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+        results = fetchResult
+        
+        imageCachingManager.startCachingImages(for: fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count)), targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: nil)
+    }
+    func fetchScreenshots() {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        fetchOptions.includeHiddenAssets = false
+        fetchOptions.predicate = NSPredicate(format: "mediaType == %d && mediaSubtype == %d", PHAssetMediaType.image.rawValue, PHAssetMediaSubtype.photoScreenshot.rawValue)
+        
+        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+        results = fetchResult
+        
+        imageCachingManager.startCachingImages(for: fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count)), targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: nil)
+    }
+    func fetchPortraitPhotos() {
+        let fetchOptions = PHFetchOptions()
+        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+        fetchOptions.includeHiddenAssets = false
+        fetchOptions.predicate = NSPredicate(format: "mediaType == %d && mediaSubtype == %d && pixelWidth < pixelHeight", PHAssetMediaType.image.rawValue, PHAssetMediaSubtype.photoPanorama.rawValue)
+        
+        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+        results = fetchResult
+        
+        imageCachingManager.startCachingImages(for: fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count)), targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: nil)
+    }
+
+    func fetchImage(byLocalIdentifier localIdentifier: String, targetSize: CGSize, contentMode: PHImageContentMode, completion: @escaping (UIImage?) -> Void) {
+        guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil).firstObject else {
+            completion(nil)
+            return
+        }
+        
+        let requestOptions = PHImageRequestOptions()
+        requestOptions.isSynchronous = true
+        
+        imageCachingManager.requestImage(for: asset, targetSize: targetSize, contentMode: contentMode, options: requestOptions) { image, _ in
+            completion(image)
+        }
+    }
+}
