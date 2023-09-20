@@ -30,4 +30,56 @@ class  CorePhotoController: NSObject, ObservableObject {
             }
         }
     }
+    func duplicatePhoto(asset: PHAsset) {
+        PHPhotoLibrary.shared().performChanges {
+            guard PHAssetChangeRequest(for: asset.copy() as! PHAsset) != nil else { return }
+            
+            // You can modify properties of the duplicated asset if needed,
+            // for example, updating metadata, location, etc.
+            
+            // Perform additional changes if necessary
+            
+        } completionHandler: { success, error in
+            if success {
+                // Handle successful duplication
+            } else if let error = error {
+                print("Error duplicating photo: \(error.localizedDescription)")
+            }
+        }
+    }
+    func addAssetToAlbum(asset: PHAsset, album: PHAssetCollection) {
+    PHPhotoLibrary.shared().performChanges {
+        let albumChangeRequest = PHAssetCollectionChangeRequest(for: album)
+        albumChangeRequest?.addAssets([asset] as NSFastEnumeration)
+    } completionHandler: { success, error in
+        if success {
+            // Handle successful addition to album
+        } else if let error = error {
+            print("Error adding photo to album: \(error.localizedDescription)")
+        }
+    }
+}
+    func saveImageToAssetCollection(image: [UIImage], toAlbum album: PHAssetCollection) {
+        PHPhotoLibrary.shared().performChanges {
+            for image in image{
+                  if let albumChangeRequest = PHAssetCollectionChangeRequest(for: album) {
+                    albumChangeRequest.addAssets([image] as NSFastEnumeration)
+                     
+                }
+            }
+        } completionHandler: { success, error in
+            if let error = error {
+                print("Error saving image to album: \(error)")
+            } else {
+                print("Image saved to album successfully.")
+            }
+        }
+    }
+
+        
+
+
+
+
+
 }

@@ -19,10 +19,6 @@ struct LibraryView: View {
             ZStack(alignment: .top){
                 ScrollView(.vertical,showsIndicators: false){
                     LazyVStack(spacing: 20){
-                        MediaCategoryView()
-                            .padding(.leading)
-                        SmartAlbumView()
-                            .padding(.leading)
                             AlbumCollectionView(albumCollections: assetCollection)
                                 .padding(.leading)
                                 .onAppear{
@@ -34,6 +30,7 @@ struct LibraryView: View {
                       
                     }
                 }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
+                
             }
             .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
             .toolbar {
@@ -50,12 +47,12 @@ struct LibraryView: View {
                         }
                     }
                 }
-                ToolbarItem(placement: .principal) {
-                    Text("Library")
-                        .font(.custom("netflixsans-black", size: 20))
-                        .foregroundColor(Color.white)
-                        .fontWeight(.heavy)
-                }
+//                ToolbarItem(placement: .principal) {
+//                    Text("Library")
+//                        .font(.custom("netflixsans-black", size: 20))
+//                        .foregroundColor(Color.white)
+//                        .fontWeight(.heavy)
+//                }
                 ToolbarItem(placement: .navigationBarTrailing) {
                     HStack(spacing: 15){
                         Button(action: {}) {

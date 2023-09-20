@@ -8,6 +8,7 @@ enum AuthorizationError: Error {
 class PhotoLibraryService: ObservableObject {
     @Published var authorizationStatus: PHAuthorizationStatus = .notDetermined
     @Published var results: PHFetchResult<PHAsset>?
+    @Published var hiddenResults: PHFetchResult<PHAsset>?
     var imageCachingManager = PHCachingImageManager()
     
     func requestAuthorization(handleError: ((AuthorizationError?) -> Void)? = nil) {
@@ -18,6 +19,7 @@ class PhotoLibraryService: ObservableObject {
                 switch status {
                 case .authorized:
                     self?.fetchAllPhotos()
+                    self?.fetchHiddenPhotos()
                 case .denied, .restricted:
                     handleError?(.restrictedAccess)
                 case .notDetermined:
@@ -54,49 +56,52 @@ class PhotoLibraryService: ObservableObject {
         
         imageCachingManager.startCachingImages(for: fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count)), targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: nil)
     }
-    func fetchSelfiesPhotos() {
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        fetchOptions.includeHiddenAssets = false
-        fetchOptions.predicate = NSPredicate(format: "mediaType == %d && sourceType == %d", PHAssetMediaType.image.rawValue, PHAssetSourceType.typeUserLibrary.rawValue)
-        
-        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
-        results = fetchResult
-        
-        imageCachingManager.startCachingImages(for: fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count)), targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: nil)
+    func fetchHiddenPhotos() {
+            let fetchOptions = PHFetchOptions()
+            fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
+            fetchOptions.includeHiddenAssets = true // changed from false to true
+            fetchOptions.predicate = NSPredicate(format: "isHidden == YES")
+//            fetchOptions.predicate = NSCompoundPredicate(andPredicateWithSubpredicates: [NSPredicate(format: "mediaType == %d", PHAssetMediaType.image.rawValue), NSPredicate(format: "isHidden == %d", 1)]) // added another predicate to filter out non-hidden photos
+            
+            let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
+            hiddenResults = fetchResult
+            
+            imageCachingManager.startCachingImages(for: fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count)), targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: nil)
+        }
+/*
+ function that first asks for user permission before deleting the PHAsset:
+ */
+    func requestAndDeletePhoto(asset: PHAsset, completion: @escaping (Bool, Error?) -> Void) {
+        PHPhotoLibrary.requestAuthorization { status in
+            switch status {
+            case .authorized:
+                PHPhotoLibrary.shared().performChanges({
+                    self.performDelete(for: asset, completion: completion)
+                })
+            case .notDetermined:
+                PHPhotoLibrary.requestAuthorization { [self] status in
+                    if status == .authorized {
+                        PHPhotoLibrary.shared().performChanges({
+                            self.performDelete(for: asset, completion: completion)
+                        })
+                    } else {
+                        completion(false, nil)
+                    }
+                }
+            default:
+                completion(false, nil)
+            }
+        }
     }
-    func fetchLivePhotos() {
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        fetchOptions.includeHiddenAssets = false
-        fetchOptions.predicate = NSPredicate(format: "mediaType == %d && mediaSubtype == %d", PHAssetMediaType.image.rawValue, PHAssetMediaSubtype.photoLive.rawValue)
-        
-        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
-        results = fetchResult
-        
-        imageCachingManager.startCachingImages(for: fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count)), targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: nil)
-    }
-    func fetchScreenshots() {
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        fetchOptions.includeHiddenAssets = false
-        fetchOptions.predicate = NSPredicate(format: "mediaType == %d && mediaSubtype == %d", PHAssetMediaType.image.rawValue, PHAssetMediaSubtype.photoScreenshot.rawValue)
-        
-        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
-        results = fetchResult
-        
-        imageCachingManager.startCachingImages(for: fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count)), targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: nil)
-    }
-    func fetchPortraitPhotos() {
-        let fetchOptions = PHFetchOptions()
-        fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
-        fetchOptions.includeHiddenAssets = false
-        fetchOptions.predicate = NSPredicate(format: "mediaType == %d && mediaSubtype == %d && pixelWidth < pixelHeight", PHAssetMediaType.image.rawValue, PHAssetMediaSubtype.photoPanorama.rawValue)
-        
-        let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
-        results = fetchResult
-        
-        imageCachingManager.startCachingImages(for: fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count)), targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: nil)
+
+     func performDelete(for asset: PHAsset, completion: @escaping (Bool, Error?) -> Void) {
+        PHPhotoLibrary.shared().performChanges({
+            PHAssetChangeRequest.deleteAssets([asset] as NSArray)
+        }) { success, error in
+            DispatchQueue.main.async {
+                completion(success, error)
+            }
+        }
     }
 
     func fetchImage(byLocalIdentifier localIdentifier: String, targetSize: CGSize, contentMode: PHImageContentMode, completion: @escaping (UIImage?) -> Void) {

@@ -17,7 +17,7 @@ struct SharedAlbumTumbnailView : View {
             ZStack {
                 RoundedRectangle(cornerRadius: 8)
                     .frame(width: 120, height: 120)
-                    .foregroundStyle(Color.blue.opacity(0.1))
+                    .foregroundStyle(Color.gray.opacity(0.1))
                 
                 image
                     .foregroundStyle(Color.blue)

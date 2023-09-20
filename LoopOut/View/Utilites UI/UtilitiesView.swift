@@ -9,9 +9,10 @@ import Foundation
 import SwiftUI
 import Photos
 enum Phototools : String, CaseIterable {
-    case cleanup = "Clean up"
+    case cleanup = "Clean Photos"
     case Resizer = "Photo Resizer"
     case lockPhotos = "lock  Photos"
+    case college = "Photo College"
     var icon :Image {
         switch self {
         case .cleanup:
@@ -20,6 +21,8 @@ enum Phototools : String, CaseIterable {
             return Image(systemName: "crop")
         case .lockPhotos:
             return Image(systemName: "lock")
+        case .college:
+            return Image(systemName: "square.grid.2x2")
         }
     }
     var thumbnail: Image {
@@ -30,23 +33,48 @@ enum Phototools : String, CaseIterable {
             return Image("photoresize")
         case .lockPhotos:
             return Image("lockphoto")
+        case .college:
+            return Image("college")
         }
     }
     
+    var view: some View {
+        switch self {
+        case .cleanup:
+            return AnyView(SimilarPhotoController())
+        case .Resizer:
+            return AnyView(ResizerView())
+        case .lockPhotos:
+            return AnyView(LockPhotoView())
+        case .college:
+            return AnyView(collegeView())
+        }
+    }
+
   
 }
 
 struct UtilitiesView: View {
+    @State private var showNavigationBar = true
     var body: some View {
         NavigationStack{
             ZStack {
-                ScrollView{
+                ScrollView(.vertical, showsIndicators: false){
                     LazyVStack{
-                        ForEach(Phototools.allCases, id: \.rawValue){ tool in
-                            UtilityButtonView(title: tool.rawValue, icon: tool.icon, thumbnail: tool.thumbnail) {
-                                
+                        Section{
+                            LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 8), count: 2),spacing: 8) {
+                                ForEach(Phototools.allCases, id: \.rawValue){ tool in
+                                    NavigationLink {
+                                        tool.view
+                                            .navigationBarBackButtonHidden(true)
+                                            .toolbar(.hidden, for: .tabBar)
+                                            
+                                    } label: {
+                                        UtilityButtonView(title: tool.rawValue,thumbnail: tool.thumbnail)
+                                           
+                                    }
+                                }
                             }
-                            .padding(12)
                         }
                     }
                 }
@@ -85,12 +113,6 @@ struct UtilitiesView: View {
                             
                                 .clipShape(Capsule())
                         }
-//                        Button(action: {}) {
-//                            Image(systemName: "plus")
-//                                .foregroundColor(.white)
-//                                .fontWeight(.semibold)
-//                                .font(.headline)
-//                        }
                         
                     }
                 }
@@ -103,43 +125,35 @@ struct UtilitiesView: View {
 }
 
 
-struct UtilityButtonView<Content: View>: View {
-    let content: Content
+struct UtilityButtonView: View {
     let title: String
-    let icon : Image
     let thumbnail: Image
     
-    init(title: String,icon:Image, thumbnail: Image, @ViewBuilder content: () -> Content) {
+    init(title: String, thumbnail: Image) {
         self.title = title
-        self.icon = icon
         self.thumbnail = thumbnail
-        self.content = content()
     }
     
     var body: some View {
-        VStack(alignment: .leading, spacing: 20){
-            Label {
-                Text(title)
-                    .foregroundColor(.white)
-                    .font(.custom("netflixsans-Bold", size: 18))
-            } icon: {
-                icon
-                    .foregroundColor(.white)
-            }
-
-            ZStack(alignment: .center){
+        ZStack(alignment:.top){
+            RoundedRectangle(cornerRadius: 18)
+                .frame(width: 180, height: 300)
+                .foregroundStyle(.gray.opacity(0.2))
+            VStack(spacing: 20){
                 thumbnail
+                    .resizable()
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 180, height: 250)
                     .clipped()
-                    .frame(width: 340, height: 240)
-                    .aspectRatio( contentMode: .fit)
-                    .cornerRadius(10)
+                Text(title)
+                    .font(.custom("netflixsans-black", size: 16))
+                    .foregroundColor(.white)
             }
-            .padding()
-            .background(Color.blue.opacity(0.15))
-            .clipShape(RoundedRectangle(cornerRadius: 15))
+         
                 
-            content
-        }
+            }
+                
+        
       
       
     }

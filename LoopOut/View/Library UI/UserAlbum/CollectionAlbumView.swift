@@ -29,63 +29,43 @@ struct AlbumCollectionView:View {
                             
                         }
                         
-                        HStack{
-                            Image(systemName: "paintbrush.fill")
-                                .resizable()
-                                .frame(width: 20,height: 20)
-                                .foregroundColor(.white)
-                            VStack(alignment: .leading){
-                                Text("Clean up Empty Album")
-                                    .font(.custom("netflixsans-Medium", size: 16))
-                                    .foregroundColor(.white)
-                                Text("\(EmptyCollections.count)")
-                                    .font(.custom("netflixsans-Regular", size: 12))
-                                    .foregroundColor(.blue)
-                            }
-                            Spacer()
-                            Button {
-                                
-                            } label: {
-                                
-                                Text("Clean up")
-                                    .foregroundColor(.white)
-                                    .font(.custom("netflixsans-Medium", size: 12))
-                                    .frame(width: 80, height: 40)
-                                    .background(Color.blue)
-                                    .clipShape(RoundedRectangle(cornerRadius: 12))
-                                
-                            }
-                            
-                        }
-                        .padding()
-                        .background(Color.blue.opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 20))
+//                        HStack{
+////                            Image(systemName: "paintbrush.fill")
+////                                .resizable()
+////                                .frame(width: 20,height: 20)
+////                                .foregroundColor(.white)
+//                            VStack(alignment: .leading){
+//                                Text("Clean up Empty Album")
+//                                    .font(.custom("netflixsans-Medium", size: 16))
+//                                    .foregroundColor(.white)
+//                                Text("\(EmptyCollections.count)")
+//                                    .font(.custom("netflixsans-Regular", size: 12))
+//                                    .foregroundColor(.blue)
+//                            }
+//                            Spacer()
+//                            Button {
+//
+//                            } label: {
+//
+//                                Text("Clean up")
+//                                    .foregroundColor(.white)
+//                                    .font(.custom("netflixsans-Medium", size: 12))
+//                                    .frame(width: 80, height: 40)
+//                                    .background(Color.blue)
+//                                    .clipShape(RoundedRectangle(cornerRadius: 12))
+//
+//                            }
+//
+//                        }
+//                        .padding()
+//                        .background(Color.blue.opacity(0.1))
+//                        .clipShape(RoundedRectangle(cornerRadius: 20))
                     }.padding(.horizontal)
                     
 
                     
                     ScrollView(.vertical, showsIndicators: false) {
                         LazyVGrid(columns: Array(repeating: .init(.flexible(), spacing: 8), count: 2),spacing: 8){
-                            VStack(alignment: .leading) {
-                                    ZStack {
-                                        RoundedRectangle(cornerRadius: 8)
-                                            .frame(width: 160, height: 160)
-                                            .foregroundStyle(Color.blue.opacity(0.1))
-                                        
-                                        Image(systemName: "plus")
-                                            .foregroundStyle(Color.blue)
-                                            .font(.largeTitle)
-                                    }
-                                VStack(alignment: .leading) {
-                                    Text("New Album")
-                                        .foregroundColor(Color.white)
-                                        .font(.custom("netflixsans-Regular", size: 12))
-                                    
-                                    Text("")
-                                        .foregroundColor(Color(uiColor: .systemGray4))
-                                        .font(.caption)
-                                }
-                            }
                             ForEach(nonEmptyCollections, id: \.localIdentifier) { collection in
                                 NavigationLink {
                                     CollectionPhotosView(collection: collection)

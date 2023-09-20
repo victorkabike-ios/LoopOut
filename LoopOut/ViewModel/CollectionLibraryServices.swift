@@ -106,53 +106,50 @@ class CollectionLibraryService: ObservableObject {
                 })
         }
     }
-    func addImages(_ images: [UIImage], toAlbumWithTitle albumTitle: String, completion: @escaping (Bool, Error?) -> Void) {
-        var albumPlaceholder: PHObjectPlaceholder?
-        
-        // Request access to the Photos library
-        PHPhotoLibrary.requestAuthorization { status in
-            guard status == .authorized else {
-                // Handle the case when access is not granted
-                completion(false, NSError(domain: "com.yourapp", code: 1, userInfo: [NSLocalizedDescriptionKey: "Access to Photos library not granted."]))
-                return
-            }
-            
-            // Fetch the album with the specified title
-            let fetchOptions = PHFetchOptions()
-            fetchOptions.predicate = NSPredicate(format: "title = %@", albumTitle)
-            let album = PHAssetCollection.fetchAssetCollections(with: .album, subtype: .any, options: fetchOptions)
-            
-            // Create the image request
-            PHPhotoLibrary.shared().performChanges({
-                // Create a request to add the images to the album
-                let albumChangeRequest: PHAssetCollectionChangeRequest?
-                if let album = album.firstObject {
-                    albumChangeRequest = PHAssetCollectionChangeRequest(for: album)
-                } else {
-                    albumChangeRequest = PHAssetCollectionChangeRequest.creationRequestForAssetCollection(withTitle: albumTitle)
-                    albumPlaceholder = albumChangeRequest?.placeholderForCreatedAssetCollection
+    func addImagesToAssetCollection(images: [UIImage], assetCollection: PHAssetCollection) {
+            // Request authorization to access the Photos library
+            PHPhotoLibrary.requestAuthorization { status in
+                guard status == .authorized else {
+                    print("Access to Photos library is not authorized.")
+                    return
                 }
                 
-                if let albumChangeRequest = albumChangeRequest, let albumPlaceholder = albumPlaceholder {
-                    // Add the images to the album
-                    var assets: [PHObjectPlaceholder] = []
+                PHPhotoLibrary.shared().performChanges {
+                    // Create a PHAssetChangeRequest for each image and add them to the collection
+                    let options = PHAssetResourceCreationOptions()
+                    var placeholderAssets: [PHObjectPlaceholder] = []
+                    
                     for image in images {
-                        let imageChangeRequest = PHAssetChangeRequest.creationRequestForAsset(from: image)
-                        let assetPlaceholder = imageChangeRequest.placeholderForCreatedAsset
-                        assets.append(assetPlaceholder!)
+                        if let imageData = image.jpegData(compressionQuality: 0.8) {
+                            let creationRequest = PHAssetCreationRequest.forAsset()
+                            let creationOptions = PHAssetResourceCreationOptions()
+                            creationOptions.shouldMoveFile = true
+                            
+                            creationRequest.addResource(with: .photo, data: imageData, options: creationOptions)
+                            
+                            if let placeholder = creationRequest.placeholderForCreatedAsset {
+                                placeholderAssets.append(placeholder)
+                            }
+                        }
                     }
-                    albumChangeRequest.addAssets(assets as NSArray)
+                    
+                    // Fetch the newly created assets and add them to the collection
+                    let fetchOptions = PHFetchOptions()
+                    fetchOptions.predicate = NSPredicate(format: "SELF IN %@", placeholderAssets)
+                    let fetchedAssets = PHAsset.fetchAssets(with: fetchOptions)
+                    
+                    if let collectionChangeRequest = PHAssetCollectionChangeRequest(for: assetCollection) {
+                        collectionChangeRequest.addAssets(fetchedAssets)
+                    }
+                } completionHandler: { success, error in
+                    if success {
+                        print("Images added to asset collection successfully.")
+                    } else if let error = error {
+                        print("Error adding images to asset collection: \(error.localizedDescription)")
+                    }
                 }
-            }, completionHandler: { success, error in
-                // Handle the completion of the request
-                if success {
-                    completion(true, nil)
-                } else {
-                    completion(false, error)
-                }
-            })
+            }
         }
-    }
 
 
 }

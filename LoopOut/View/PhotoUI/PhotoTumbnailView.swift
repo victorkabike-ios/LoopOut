@@ -20,17 +20,15 @@ struct PhotoTumbnailView: View {
                     .resizable()
                     .interpolation(.high)
                     .aspectRatio(contentMode: .fill)
-                    .frame(width: 115, height: 150)
-                    .clipped()
-                    .clipShape(RoundedRectangle(cornerRadius: 10))
-                
+                    .frame(width: 129, height: 130)
+                    .clipped()                
         }
     }
     private func fetchImage() -> UIImage {
             var image = UIImage()
             let semaphore = DispatchSemaphore(value: 0)
             
-            photoLibraryService.fetchImage(byLocalIdentifier: photo.localIdentifier, targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill) { fetchedImage in
+            photoLibraryService.fetchImage(byLocalIdentifier: photo.localIdentifier, targetSize: CGSize(width: 300, height: 300), contentMode: .aspectFill) { fetchedImage in
                 if let fetchedImage = fetchedImage {
                     image = fetchedImage
                 }

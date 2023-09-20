@@ -23,6 +23,7 @@ struct PhotoPreview:View {
     @State var addFavorites: Bool = false
     
     @State private var showCropEditor: Bool = false
+    @State private var showphotoInfo: Bool = false
     @State private var selectedRect: CGRect?
     var body: some View {
         NavigationStack{
@@ -32,17 +33,13 @@ struct PhotoPreview:View {
                             .resizable()
                             .clipped()
                             .aspectRatio(contentMode: .fit)
-                            .frame(width: 380 , height: 500 )
-                            .clipShape(RoundedRectangle(cornerRadius: 10))
+                            .frame(width:  380 , height: showphotoInfo ? 300 : 500 )
                             .background(Color.clear)
                         
                         
                         
-                        
                     }
-                    .frame(width: 380 , height: 500)
-                    .clipShape(RoundedRectangle(cornerRadius: 20))
-                    VStack(spacing: 30){
+                        VStack(spacing: 30){
                             HStack(alignment: .center, spacing: 25){
                                 ButtonView(imageName: "square.and.arrow.up", buttonText: "Share") {
                                     PhotoController.shareImage(image: processedImage)
@@ -59,13 +56,40 @@ struct PhotoPreview:View {
                                 }
                                 
                                 ButtonView(imageName: "trash.fill", buttonText: "delete") {
-                                   
+                                    
                                 }
                             }
-                        
-                    }
+                            Divider()
+                            HStack(alignment: .center ,spacing: 80){
+                                Button {
+                                    withAnimation(.easeInOut(duration: 1)){
+                                        showphotoInfo.toggle()
+                                    }
+                                } label: {
+                                    
+                                    Text("Details")
+                                        .font(.custom("NetflixSans-Regular", size: 12))
+                                        .foregroundColor(.white)
+                                }
+                                
+                                Text("Template")
+                                    .font(.custom("NetflixSans-Regular", size: 12))
+                                    .foregroundColor(.white)
+                                
+                            }
+                            .frame(maxWidth: .infinity)
+                            .frame(height: 20)
+                            
+                        }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .bottom)
+                    
                 }.frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                     .padding(.horizontal,0)
+                    .sheet(isPresented: $showphotoInfo, content: {
+                        PhotoInfoView(asset: photo)
+                            .presentationDetents([.medium, .large])
+                            .presentationDragIndicator(.visible)
+                        .frame(maxWidth: .infinity, maxHeight: .infinity)
+                    })
                     .onAppear{
                         processedImage = fetchImage()
                         resizedImage = fetchImage()

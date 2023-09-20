@@ -39,14 +39,14 @@ struct CollectionTumbnailView: View {
                 Text(collection.localizedTitle ?? "")
                     .foregroundColor(Color.white)
                     .font(.custom("netflixsans-Regular", size: 12))
-                Text("\(collection.estimatedAssetCount) items")
-                    .foregroundColor(Color(uiColor: .systemGray4))
+                Text("\(collection.estimatedAssetCount)")
+                    .foregroundColor(Color.blue)
                     .font(.caption)
             }
             
         }
-        .frame(width: 185, height: 250)
-        .background(Color.blue.opacity(0.15))
+        .frame(width: 180, height: 250)
+        .background(Color.gray.opacity(0.15))
         .cornerRadius(15)
         .onAppear{
             albumCollectionLibraryService.fetchAllPhotos(collection: collection)
@@ -63,7 +63,7 @@ struct CollectionTumbnailView: View {
             var image = UIImage()
             let semaphore = DispatchSemaphore(value: 0)
         if photo != nil {
-            photoLibraryService.fetchImage(byLocalIdentifier: photo!.localIdentifier   , targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill) { fetchedImage in
+            photoLibraryService.fetchImage(byLocalIdentifier: photo!.localIdentifier   , targetSize: PHImageManagerMaximumSize, contentMode: .aspectFill) { fetchedImage in
                     if let fetchedImage = fetchedImage {
                         image = fetchedImage
                     }

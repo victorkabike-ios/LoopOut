@@ -28,7 +28,7 @@ struct ViewController: View {
                 }
                 .tag(Tab.library)
                 .environmentObject(assetCollectionLibraryService)
-                .environmentObject(mediaLibraryService)
+//                .environmentObject(mediaLibraryService)
             
             UtilitiesView()
                 .tabItem {
