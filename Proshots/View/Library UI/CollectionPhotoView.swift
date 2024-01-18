@@ -15,8 +15,15 @@ struct CollectionPhotosView: View {
     @EnvironmentObject var albumCollectionLibraryService: CollectionLibraryService
     @ObservedObject  var CoreAction = CorePhotoController()
     @State private var selectedItems = [PhotosPickerItem]()
-        @State private var selectedImages = [UIImage]()
-    
+    @State private var selectedImages = [UIImage]()
+    @State var photoAssets: [PHAsset] = []
+    // Function to convert PHFetchResult to an array
+    private func convertFetchResultToArray(fetchResult: PHFetchResult<PHAsset>) {
+           for index in 0..<fetchResult.count {
+               let asset = fetchResult.object(at: index)
+               photoAssets.append(asset)
+           }
+       }
     var body: some View {
         NavigationStack {
                 ScrollView(showsIndicators: false){
@@ -38,7 +45,11 @@ struct CollectionPhotosView: View {
                                     ForEach(0..<results.count, id: \.self) { photo in
                                         if let asset = results.object(at: photo) as? PHAsset {
                                             NavigationLink {
-                                                PhotoPreview( photo: asset)
+                                                PhotoPreview( photo: asset, photoAssets: photoAssets)
+                                                    .onAppear{convertFetchResultToArray(fetchResult: results)}
+                                                    .toolbar(.hidden, for: .tabBar)
+                                                    .navigationBarBackButtonHidden()
+                                                
                                             } label: {
                                                 PhotoTumbnailView(photo: asset)
                                             }

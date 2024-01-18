@@ -12,6 +12,8 @@ import UIKit
 class SimilarPHLibraryHelper: ObservableObject {
     @Published var authorizationStatus: PHAuthorizationStatus = .notDetermined
     @Published var results: PHFetchResult<PHAsset>?
+    @Published var photoCategories: [String: [UIImage]] = [:]
+    @Published var isScanning:Bool = false
     var imageCachingManager = PHCachingImageManager()
     
     func requestAuthorization(category: MediaCategory,handleError: ((AuthorizationError?) -> Void)? = nil) {
@@ -68,6 +70,7 @@ class SimilarPHLibraryHelper: ObservableObject {
         imageCachingManager.startCachingImages(for: fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count)), targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: nil)
     }
     func fetchPhotosPhotos() {
+        isScanning = true
         let fetchOptions = PHFetchOptions()
         fetchOptions.sortDescriptors = [NSSortDescriptor(key: "creationDate", ascending: false)]
         fetchOptions.includeHiddenAssets = false
@@ -80,7 +83,24 @@ class SimilarPHLibraryHelper: ObservableObject {
         let fetchResult = PHAsset.fetchAssets(with: fetchOptions)
         results = fetchResult
         
+        
         imageCachingManager.startCachingImages(for: fetchResult.objects(at: IndexSet(integersIn: 0..<fetchResult.count)), targetSize: CGSize(width: 200, height: 200), contentMode: .aspectFill, options: nil)
+        // Replace with your actual fetch result
+        if let fetchResult = results{
+            
+            for index in 0..<fetchResult.count {
+                let asset = fetchResult.object(at: index)
+                let image =  fetchImagefunction(image: asset) // Implement this function
+                
+                if let category = SimilarPhotoCategorizationHelper.category(for: image) {
+                    if photoCategories[category] == nil {
+                        photoCategories[category] = []
+                    }
+                    photoCategories[category]?.append(image)
+                }
+            }
+            isScanning = false
+        }
     }
     func fetchImage(byLocalIdentifier localIdentifier: String, targetSize: CGSize, contentMode: PHImageContentMode, completion: @escaping (UIImage?) -> Void) {
         guard let asset = PHAsset.fetchAssets(withLocalIdentifiers: [localIdentifier], options: nil).firstObject else {
@@ -95,4 +115,18 @@ class SimilarPHLibraryHelper: ObservableObject {
             completion(image)
         }
     }
+    private func fetchImagefunction(image:PHAsset) -> UIImage {
+         let semaphore = DispatchSemaphore(value: 0)
+         var selectedPhoto = UIImage()
+         fetchImage(byLocalIdentifier: image.localIdentifier, targetSize: CGSize(width: 500, height: 500), contentMode: .aspectFill) { fetchedImage in
+             if let fetchedImage = fetchedImage {
+                 selectedPhoto = fetchedImage
+             }
+             semaphore.signal()
+         }
+         
+         semaphore.wait()
+         return selectedPhoto
+     }
+    
 }

@@ -41,6 +41,7 @@
 		FF39A9712A63F260008FEF37 /* CoreFilter.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF39A9702A63F260008FEF37 /* CoreFilter.swift */; };
 		FF39A9732A641132008FEF37 /* Factor.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF39A9722A641132008FEF37 /* Factor.swift */; };
 		FF39A9752A642B47008FEF37 /* realesrgan512.mlmodel in Sources */ = {isa = PBXBuildFile; fileRef = FF39A9742A642B47008FEF37 /* realesrgan512.mlmodel */; };
+		FF5C61B12ABC9AD20075CF23 /* UIPageViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF5C61B02ABC9AD20075CF23 /* UIPageViewController.swift */; };
 		FF84E04C2A741D1B00BE4752 /* CollectionPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF84E04B2A741D1B00BE4752 /* CollectionPhotoView.swift */; };
 		FF84E04F2A757C4E00BE4752 /* SmartAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF84E04E2A757C4E00BE4752 /* SmartAlbumView.swift */; };
 		FF84E0512A757C9F00BE4752 /* SmartAlbumTumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF84E0502A757C9F00BE4752 /* SmartAlbumTumbnailView.swift */; };
@@ -49,6 +50,7 @@
 		FF84E0582A757DA600BE4752 /* CollectionAlbumView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF84E0572A757DA600BE4752 /* CollectionAlbumView.swift */; };
 		FF84E05B2A75856900BE4752 /* MediaCategoryView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF84E05A2A75856900BE4752 /* MediaCategoryView.swift */; };
 		FF84E05D2A75887100BE4752 /* MediaLibraryServices.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF84E05C2A75887100BE4752 /* MediaLibraryServices.swift */; };
+		FF88B7402ABF5CB50056B2B3 /* ImageModifier.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF88B73F2ABF5CB50056B2B3 /* ImageModifier.swift */; };
 		FF8AAC0F2A841F38003517D4 /* AlbumPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8AAC0E2A841F38003517D4 /* AlbumPickerView.swift */; };
 		FF8AAC122A8796E8003517D4 /* SimilarPhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8AAC112A8796E8003517D4 /* SimilarPhotoView.swift */; };
 		FF8AAC152A87995D003517D4 /* ResizerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF8AAC142A87995D003517D4 /* ResizerView.swift */; };
@@ -133,14 +135,14 @@
 		FF1053682A62BB3C00E494E6 /* MLMultiArray+Image.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "MLMultiArray+Image.swift"; sourceTree = "<group>"; };
 		FF1053692A62BB3C00E494E6 /* CVPixelBuffer+Resize.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CVPixelBuffer+Resize.swift"; sourceTree = "<group>"; };
 		FF10536A2A62BB3C00E494E6 /* CVPixelBuffer+Rotate.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "CVPixelBuffer+Rotate.swift"; sourceTree = "<group>"; };
-		FF14B5E92A5B32A200987865 /* LoopOut.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = LoopOut.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF14B5E92A5B32A200987865 /* Proshots.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Proshots.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF14B5EC2A5B32A200987865 /* LoopOutApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopOutApp.swift; sourceTree = "<group>"; };
 		FF14B5EE2A5B32A200987865 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		FF14B5F02A5B32A600987865 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		FF14B5F32A5B32A600987865 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		FF14B5F92A5B32A600987865 /* LoopOutTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoopOutTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF14B5F92A5B32A600987865 /* ProshotsTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProshotsTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF14B5FD2A5B32A600987865 /* LoopOutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopOutTests.swift; sourceTree = "<group>"; };
-		FF14B6032A5B32A600987865 /* LoopOutUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = LoopOutUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		FF14B6032A5B32A600987865 /* ProshotsUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ProshotsUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		FF14B6072A5B32A600987865 /* LoopOutUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopOutUITests.swift; sourceTree = "<group>"; };
 		FF14B6092A5B32A600987865 /* LoopOutUITestsLaunchTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoopOutUITestsLaunchTests.swift; sourceTree = "<group>"; };
 		FF14B6222A5B3CAA00987865 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
@@ -152,6 +154,7 @@
 		FF39A9722A641132008FEF37 /* Factor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Factor.swift; sourceTree = "<group>"; };
 		FF39A9742A642B47008FEF37 /* realesrgan512.mlmodel */ = {isa = PBXFileReference; lastKnownFileType = file.mlmodel; name = realesrgan512.mlmodel; path = ../../../../../Downloads/realesrgan512.mlmodel; sourceTree = "<group>"; };
 		FF5C61AF2AB9F99F0075CF23 /* NetflixSans_It.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; name = NetflixSans_It.ttf; path = ../../../../../../Downloads/NetflixSans_It/NetflixSans_It.ttf; sourceTree = "<group>"; };
+		FF5C61B02ABC9AD20075CF23 /* UIPageViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIPageViewController.swift; sourceTree = "<group>"; };
 		FF84E04B2A741D1B00BE4752 /* CollectionPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionPhotoView.swift; sourceTree = "<group>"; };
 		FF84E04E2A757C4E00BE4752 /* SmartAlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartAlbumView.swift; sourceTree = "<group>"; };
 		FF84E0502A757C9F00BE4752 /* SmartAlbumTumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmartAlbumTumbnailView.swift; sourceTree = "<group>"; };
@@ -160,6 +163,7 @@
 		FF84E0572A757DA600BE4752 /* CollectionAlbumView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionAlbumView.swift; sourceTree = "<group>"; };
 		FF84E05A2A75856900BE4752 /* MediaCategoryView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaCategoryView.swift; sourceTree = "<group>"; };
 		FF84E05C2A75887100BE4752 /* MediaLibraryServices.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediaLibraryServices.swift; sourceTree = "<group>"; };
+		FF88B73F2ABF5CB50056B2B3 /* ImageModifier.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageModifier.swift; sourceTree = "<group>"; };
 		FF8AAC0E2A841F38003517D4 /* AlbumPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlbumPickerView.swift; sourceTree = "<group>"; };
 		FF8AAC112A8796E8003517D4 /* SimilarPhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SimilarPhotoView.swift; sourceTree = "<group>"; };
 		FF8AAC142A87995D003517D4 /* ResizerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ResizerView.swift; sourceTree = "<group>"; };
@@ -276,7 +280,7 @@
 		FF14B5E02A5B32A200987865 = {
 			isa = PBXGroup;
 			children = (
-				FF14B5EB2A5B32A200987865 /* LoopOut */,
+				FF14B5EB2A5B32A200987865 /* Proshots */,
 				FF14B5FC2A5B32A600987865 /* LoopOutTests */,
 				FF14B6062A5B32A600987865 /* LoopOutUITests */,
 				FF14B5EA2A5B32A200987865 /* Products */,
@@ -287,14 +291,14 @@
 		FF14B5EA2A5B32A200987865 /* Products */ = {
 			isa = PBXGroup;
 			children = (
-				FF14B5E92A5B32A200987865 /* LoopOut.app */,
-				FF14B5F92A5B32A600987865 /* LoopOutTests.xctest */,
-				FF14B6032A5B32A600987865 /* LoopOutUITests.xctest */,
+				FF14B5E92A5B32A200987865 /* Proshots.app */,
+				FF14B5F92A5B32A600987865 /* ProshotsTests.xctest */,
+				FF14B6032A5B32A600987865 /* ProshotsUITests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
 		};
-		FF14B5EB2A5B32A200987865 /* LoopOut */ = {
+		FF14B5EB2A5B32A200987865 /* Proshots */ = {
 			isa = PBXGroup;
 			children = (
 				FF8AAC3E2A93AAAE003517D4 /* CoreData Helper */,
@@ -308,7 +312,7 @@
 				FF14B5F02A5B32A600987865 /* Assets.xcassets */,
 				FF14B5F22A5B32A600987865 /* Preview Content */,
 			);
-			path = LoopOut;
+			path = Proshots;
 			sourceTree = "<group>";
 		};
 		FF14B5F22A5B32A600987865 /* Preview Content */ = {
@@ -498,6 +502,8 @@
 			isa = PBXGroup;
 			children = (
 				FF10534E2A62989100E494E6 /* PhotoPreview.swift */,
+				FF88B73F2ABF5CB50056B2B3 /* ImageModifier.swift */,
+				FF5C61B02ABC9AD20075CF23 /* UIPageViewController.swift */,
 				FF10534C2A61C5AE00E494E6 /* PhotoTumbnailView.swift */,
 				FF14B5EE2A5B32A200987865 /* ContentView.swift */,
 				FF8AAC0E2A841F38003517D4 /* AlbumPickerView.swift */,
@@ -541,9 +547,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		FF14B5E82A5B32A200987865 /* LoopOut */ = {
+		FF14B5E82A5B32A200987865 /* Proshots */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FF14B60D2A5B32A600987865 /* Build configuration list for PBXNativeTarget "LoopOut" */;
+			buildConfigurationList = FF14B60D2A5B32A600987865 /* Build configuration list for PBXNativeTarget "Proshots" */;
 			buildPhases = (
 				FF14B5E52A5B32A200987865 /* Sources */,
 				FF14B5E62A5B32A200987865 /* Frameworks */,
@@ -553,7 +559,7 @@
 			);
 			dependencies = (
 			);
-			name = LoopOut;
+			name = Proshots;
 			packageProductDependencies = (
 				FF8AAC232A912A25003517D4 /* BrightroomEngine */,
 				FF8AAC252A912A25003517D4 /* BrightroomUI */,
@@ -561,12 +567,12 @@
 				FF8AAC542A9B680B003517D4 /* IDZSwiftCommonCrypto */,
 			);
 			productName = LoopOut;
-			productReference = FF14B5E92A5B32A200987865 /* LoopOut.app */;
+			productReference = FF14B5E92A5B32A200987865 /* Proshots.app */;
 			productType = "com.apple.product-type.application";
 		};
-		FF14B5F82A5B32A600987865 /* LoopOutTests */ = {
+		FF14B5F82A5B32A600987865 /* ProshotsTests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FF14B6102A5B32A600987865 /* Build configuration list for PBXNativeTarget "LoopOutTests" */;
+			buildConfigurationList = FF14B6102A5B32A600987865 /* Build configuration list for PBXNativeTarget "ProshotsTests" */;
 			buildPhases = (
 				FF14B5F52A5B32A600987865 /* Sources */,
 				FF14B5F62A5B32A600987865 /* Frameworks */,
@@ -577,14 +583,14 @@
 			dependencies = (
 				FF14B5FB2A5B32A600987865 /* PBXTargetDependency */,
 			);
-			name = LoopOutTests;
+			name = ProshotsTests;
 			productName = LoopOutTests;
-			productReference = FF14B5F92A5B32A600987865 /* LoopOutTests.xctest */;
+			productReference = FF14B5F92A5B32A600987865 /* ProshotsTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
 		};
-		FF14B6022A5B32A600987865 /* LoopOutUITests */ = {
+		FF14B6022A5B32A600987865 /* ProshotsUITests */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = FF14B6132A5B32A600987865 /* Build configuration list for PBXNativeTarget "LoopOutUITests" */;
+			buildConfigurationList = FF14B6132A5B32A600987865 /* Build configuration list for PBXNativeTarget "ProshotsUITests" */;
 			buildPhases = (
 				FF14B5FF2A5B32A600987865 /* Sources */,
 				FF14B6002A5B32A600987865 /* Frameworks */,
@@ -595,9 +601,9 @@
 			dependencies = (
 				FF14B6052A5B32A600987865 /* PBXTargetDependency */,
 			);
-			name = LoopOutUITests;
+			name = ProshotsUITests;
 			productName = LoopOutUITests;
-			productReference = FF14B6032A5B32A600987865 /* LoopOutUITests.xctest */;
+			productReference = FF14B6032A5B32A600987865 /* ProshotsUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
 		};
 /* End PBXNativeTarget section */
@@ -623,7 +629,7 @@
 					};
 				};
 			};
-			buildConfigurationList = FF14B5E42A5B32A200987865 /* Build configuration list for PBXProject "LoopOut" */;
+			buildConfigurationList = FF14B5E42A5B32A200987865 /* Build configuration list for PBXProject "Proshots" */;
 			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
@@ -641,9 +647,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				FF14B5E82A5B32A200987865 /* LoopOut */,
-				FF14B5F82A5B32A600987865 /* LoopOutTests */,
-				FF14B6022A5B32A600987865 /* LoopOutUITests */,
+				FF14B5E82A5B32A200987865 /* Proshots */,
+				FF14B5F82A5B32A600987865 /* ProshotsTests */,
+				FF14B6022A5B32A600987865 /* ProshotsUITests */,
 			);
 		};
 /* End PBXProject section */
@@ -679,6 +685,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				FF88B7402ABF5CB50056B2B3 /* ImageModifier.swift in Sources */,
 				FF39A9732A641132008FEF37 /* Factor.swift in Sources */,
 				FFB667982A9E5EE900AF39DF /* HiddenPhotoView.swift in Sources */,
 				FF14B6262A5B453C00987865 /* PhotoModel.swift in Sources */,
@@ -725,6 +732,7 @@
 				FF10537A2A62BB3D00E494E6 /* CVPixelBuffer+Resize.swift in Sources */,
 				FFB667942A9BD31600AF39DF /* lockAlbumtumbnail.swift in Sources */,
 				FF10534D2A61C5AE00E494E6 /* PhotoTumbnailView.swift in Sources */,
+				FF5C61B12ABC9AD20075CF23 /* UIPageViewController.swift in Sources */,
 				FF14B5ED2A5B32A200987865 /* LoopOutApp.swift in Sources */,
 				FF8AAC1B2A894CE0003517D4 /* ResizableView.swift in Sources */,
 				FFC10FFB2A728F6A00495778 /* PhotoUsageServices.swift in Sources */,
@@ -778,12 +786,12 @@
 /* Begin PBXTargetDependency section */
 		FF14B5FB2A5B32A600987865 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FF14B5E82A5B32A200987865 /* LoopOut */;
+			target = FF14B5E82A5B32A200987865 /* Proshots */;
 			targetProxy = FF14B5FA2A5B32A600987865 /* PBXContainerItemProxy */;
 		};
 		FF14B6052A5B32A600987865 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
-			target = FF14B5E82A5B32A200987865 /* LoopOut */;
+			target = FF14B5E82A5B32A200987865 /* Proshots */;
 			targetProxy = FF14B6042A5B32A600987865 /* PBXContainerItemProxy */;
 		};
 /* End PBXTargetDependency section */
@@ -983,7 +991,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LoopOut.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LoopOut";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Proshots.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Proshots";
 			};
 			name = Debug;
 		};
@@ -1003,7 +1011,7 @@
 				SWIFT_EMIT_LOC_STRINGS = NO;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
-				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/LoopOut.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/LoopOut";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Proshots.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Proshots";
 			};
 			name = Release;
 		};
@@ -1046,7 +1054,7 @@
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
-		FF14B5E42A5B32A200987865 /* Build configuration list for PBXProject "LoopOut" */ = {
+		FF14B5E42A5B32A200987865 /* Build configuration list for PBXProject "Proshots" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FF14B60B2A5B32A600987865 /* Debug */,
@@ -1055,7 +1063,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FF14B60D2A5B32A600987865 /* Build configuration list for PBXNativeTarget "LoopOut" */ = {
+		FF14B60D2A5B32A600987865 /* Build configuration list for PBXNativeTarget "Proshots" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FF14B60E2A5B32A600987865 /* Debug */,
@@ -1064,7 +1072,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FF14B6102A5B32A600987865 /* Build configuration list for PBXNativeTarget "LoopOutTests" */ = {
+		FF14B6102A5B32A600987865 /* Build configuration list for PBXNativeTarget "ProshotsTests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FF14B6112A5B32A600987865 /* Debug */,
@@ -1073,7 +1081,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		FF14B6132A5B32A600987865 /* Build configuration list for PBXNativeTarget "LoopOutUITests" */ = {
+		FF14B6132A5B32A600987865 /* Build configuration list for PBXNativeTarget "ProshotsUITests" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				FF14B6142A5B32A600987865 /* Debug */,

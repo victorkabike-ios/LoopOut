@@ -45,30 +45,11 @@ struct ContentView: View {
                     }
                     
                 }
-                .navigationTitle("Loop Out")
+                .navigationTitle("SkyPro Photos")
             
                 .frame(maxWidth: .infinity, maxHeight: .infinity, alignment: .top)
                 .edgesIgnoringSafeArea(.horizontal)
                     .toolbar {
-//                        ToolbarItem(placement: .navigationBarLeading){
-//                            VStack{
-//                                Button(action: {}) {
-//                                    Image(systemName: "camera")
-//                                        .symbolRenderingMode(.monochrome)
-//                                        .foregroundStyle(Color.white)
-//                                        .fontWeight(.semibold)
-//                                        .font(.headline)
-//
-//
-//                                }
-//                            }
-//                        }
-//                        ToolbarItem(placement: .principal) {
-//                            Text("Loop Out")
-//                                .font(.custom("netflixsans-black", size: 20))
-//                                .foregroundColor(Color.white)
-//                                .fontWeight(.heavy)
-//                        }
                         ToolbarItem(placement: .navigationBarTrailing) {
                             HStack(spacing: 15){
                                 Button(action: {}) {

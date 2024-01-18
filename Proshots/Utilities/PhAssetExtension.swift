@@ -35,5 +35,15 @@ extension PHAsset {
 
         return image
     }
+    func getUIImage() -> UIImage {
+            let manager = PHImageManager.default()
+            let option = PHImageRequestOptions()
+            var image = UIImage()
+            option.isSynchronous = true
+            manager.requestImage(for: self, targetSize: CGSize(width: self.pixelWidth, height: self.pixelHeight), contentMode: .aspectFit, options: option, resultHandler: {(result, info)->Void in
+                image = result!
+            })
+            return image
+        }
 }
 

@@ -32,6 +32,7 @@ struct PhotoGridView: View {
         formatter.timeStyle = .none
         return formatter
     }()
+    @State var photoAssets: [PHAsset] = []
     func getHeaderText(for date: Date) -> String {
         if Calendar.current.isDateInToday(date) {
             return "Today"
@@ -41,7 +42,13 @@ struct PhotoGridView: View {
             return dateFormatter.string(from: date)
         }
     }
-
+    // Function to convert PHFetchResult to an array
+    private func convertFetchResultToArray(fetchResult: PHFetchResult<PHAsset>) {
+           for index in 0..<fetchResult.count {
+               let asset = fetchResult.object(at: index)
+               photoAssets.append(asset)
+           }
+       }
     var body: some View {
         NavigationStack{
             ZStack{
@@ -62,7 +69,8 @@ struct PhotoGridView: View {
                                 Section{
                                     LazyVGrid(columns: columns, spacing: 0) {
                                         ForEach(groupedResults[key]!, id: \.self) { asset in
-                                            PhotoView(asset: asset)
+                                            PhotoView(asset: asset, photoAssets: photoAssets )
+                                            .onAppear{convertFetchResultToArray(fetchResult: results)}
                                             .environmentObject(photoLibraryService)
                                             .contextMenu {
                                                 ForEach(MenuOption.allCases, id: \.self) { option in
@@ -76,21 +84,22 @@ struct PhotoGridView: View {
                                                            
                                         Text("\(headerText)")
                                             .foregroundColor(.white)
+                                            .font(.custom("NetflixSans-Bold", size: 18))
                                         Spacer()
-                                        Button(action: {
-                                            selectActive.toggle()
-                                            if !selectActive {
-                                                // Clear the selection when switching back from "Select" mode
-                                                selectedAssetSet.removeAll()
-                                            }
-                                        }) {
-                                            Image(systemName: selectActive ? "checkmark.circle.fill" : "checkmark.circle")
-                                                .resizable()
-                                                .frame(width: 20, height: 20)
-                                                .foregroundColor(Color(uiColor: .systemGray3))
-                                                .bold()
-                                                
-                                        }
+//                                        Button(action: {
+//                                            selectActive.toggle()
+//                                            if !selectActive {
+//                                                // Clear the selection when switching back from "Select" mode
+//                                                selectedAssetSet.removeAll()
+//                                            }
+//                                        }) {
+//                                            Image(systemName: selectActive ? "checkmark.circle.fill" : "checkmark.circle")
+//                                                .resizable()
+//                                                .frame(width: 20, height: 20)
+//                                                .foregroundColor(Color(uiColor: .systemGray3))
+//                                                .bold()
+//
+//                                        }
                                     }.padding()
                                 }
                             }
@@ -167,12 +176,13 @@ struct PhotoView: View {
     @State var isAlbumPickerPresented: Bool = false
     @State private var selectedAssets: PHAsset? = nil
     let asset: PHAsset
-
+    var photoAssets : [PHAsset]
     var body: some View {
         NavigationStack{
             NavigationLink {
-                PhotoPreview(photo: asset)
+                PhotoPreview(photo: asset, photoAssets: photoAssets)
                     .toolbar(.hidden, for: .tabBar)
+                    .navigationBarBackButtonHidden()
             } label: {
                 PhotoTumbnailView(photo: asset)
                   
